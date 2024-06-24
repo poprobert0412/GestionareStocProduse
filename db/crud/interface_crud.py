@@ -1,0 +1,1 @@
+"""Cream o clasa abstacta cu metodele abstarcte crud (create, read, update, delete)"""

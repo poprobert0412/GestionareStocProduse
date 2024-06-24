@@ -1,0 +1,1 @@
+"""Implementam metodele crud pentru tabela products"""

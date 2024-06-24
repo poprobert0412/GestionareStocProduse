@@ -1,0 +1,1 @@
+"""Cream modelul(obiectul) pentru aplicatia noastra (gestionare stoc produse)"""
