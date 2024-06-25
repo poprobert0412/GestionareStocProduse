@@ -16,13 +16,13 @@ def create_database(db_path=PATH_DB):
 
 
 def create_tables(connection):
-    create_user_table(connection)
+    create_users_table(connection)
     create_product_table(connection)
 
 
-def create_user_table(connection):
+def create_users_table(connection):
     query = """
-        CREATE TABLE IF NOT EXISTS user(
+        CREATE TABLE IF NOT EXISTS users(
         id TEXT NOT NULL PRIMARY KEY,
         username TEXT NOT NULL,
         first_name TEXT NOT NULL,
