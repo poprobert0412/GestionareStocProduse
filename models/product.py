@@ -2,7 +2,7 @@
 from db.crud.product_crud import ProductsDB
 
 class Product:
-    def __init__(self, id, product_name, description, ingredients, price, weight, quantity):
+    def __init__(self, product_name, description, ingredients, price, weight, quantity, id=None):
         self.id = id
         self.product_name = product_name
         self.description = description
@@ -17,6 +17,10 @@ class Product:
         with ProductsDB() as db:
             db.create(product_data)
 
+    def update(self):
+        product_data = self.dict_product()
+        with ProductsDB() as db:
+            db.update(product_data, self.id)
     def dict_product(self):
         return {
             "id": self.id,

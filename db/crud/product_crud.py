@@ -76,4 +76,10 @@ class ProductsDB(CrudABC):
         self.connection.commit()
 
     def delete(self, id):
-        pass
+        SQL_QUERY = """
+            DELETE FROM product WHERE id = ?;
+        """
+        cursor = self.connection.cursor()
+        cursor.execute(SQL_QUERY)
+        cursor.execute(SQL_QUERY, (id,))
+        self.connection.commit()
