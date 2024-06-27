@@ -1,6 +1,4 @@
-"""Implementam metodele crud pentru tabela products"""
 from db.crud.interface_crud import CrudABC
-
 
 class ProductsDB(CrudABC):
     def __init__(self):
@@ -24,21 +22,17 @@ class ProductsDB(CrudABC):
         self.connection.commit()
 
     def read(self, id=None, product_name=None):
-        SQL_QUERY = "SELECT * FROM product " #adaugam un spatiu sa nu cumva sa ne dea eroare cand rulam
-        value = ""
+        SQL_QUERY = "SELECT * FROM product"
+        params = {}
         if id:
-            SQL_QUERY += "WHERE id = ?;"
-            value = id
-            cursor = self.connection.cursor()
-            cursor.execute(SQL_QUERY, (value,))
+            SQL_QUERY += " WHERE id = :id"
+            params['id'] = id
         elif product_name:
-            SQL_QUERY += "WHERE product_name = ?;"
-            value = product_name
-            cursor = self.connection.cursor()
-            cursor.execute(SQL_QUERY, (value,))
-        else:
-            cursor = self.connection.cursor()
-            cursor.execute(SQL_QUERY)
+            SQL_QUERY += " WHERE product_name = :product_name"
+            params['product_name'] = product_name
+
+        cursor = self.connection.cursor()
+        cursor.execute(SQL_QUERY, params)
         product = cursor.fetchall()
 
         product_json = []
@@ -54,11 +48,11 @@ class ProductsDB(CrudABC):
             })
         return product_json
 
-    def update(self, date_de_intrare_update,product_id):
+    def update(self, date_de_intrare_update, product_id):
         SQL_QUERY = """
-            UPDATE product SET product_name:=product_name, description:=description,
-            ingredients:=ingredients, price:=price, weight:=weight, quantity:=quantity
-            WHERE id:=id;
+            UPDATE product SET product_name = :product_name, description = :description,
+            ingredients = :ingredients, price = :price, weight = :weight, quantity = :quantity
+            WHERE id = :id;
         """
         cursor = self.connection.cursor()
         date_de_intrare_update['id'] = product_id
@@ -66,10 +60,7 @@ class ProductsDB(CrudABC):
         self.connection.commit()
 
     def delete(self, id):
-        SQL_QUERY = """
-            DELETE FROM product WHERE id = ?;
-        """
+        SQL_QUERY = "DELETE FROM product WHERE id = ?;"
         cursor = self.connection.cursor()
-        cursor.execute(SQL_QUERY)
         cursor.execute(SQL_QUERY, (id,))
         self.connection.commit()

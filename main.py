@@ -39,12 +39,18 @@ def add_product(product_name, description, ingredients, price, weight, quantity)
     except Exception as e:
         print(f"Eroare este: {e}")
 
-def update_product(product_name, description, ingredients, price, weight, quantity):
-    pass
-
-def delete_product(id_product):
+def update_product(product_id, product_name, description, ingredients, price, weight, quantity):
     try:
-        produs_sters = Product(id=product_id,product_name="", description="", ingredients="", price=None, weight=None, quantity=None)
+        produs_actualizat = Product(id=product_id, product_name=product_name, description=description,
+                                    ingredients=ingredients, price=price, weight=weight, quantity=quantity)
+        produs_actualizat.update()
+        print("Produsul a fost actualizat")
+    except Exception as e:
+        print(f"Eroarea este: {e}")
+def delete_product(product_name):
+    try:
+        produs_sters = Product(id=product_name, product_name="", description="", ingredients="", price=None,
+                               weight=None, quantity=None)
         produs_sters.delete()
         print("Produsul a fost sters din sistem.")
     except Exception as e:
@@ -95,7 +101,7 @@ if __name__ == "__main__":
             elif optiune == "2":
                 product_id = get_info_product_id()
                 product_name, description, ingredients, price, weight, quantity = get_info_products()
-                update_product(product_name, description, ingredients, price, weight, quantity)
+                update_product(product_id, product_name, description, ingredients, price, weight, quantity)
                 print("Am actualizat produsul.")
             elif optiune == "3":
                 product_id = get_info_product_id()

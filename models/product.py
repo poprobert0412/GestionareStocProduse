@@ -11,7 +11,6 @@ class Product:
         self.price = price
         self.weight = weight
         self.quantity = quantity
-        self.user_db = ProductsDB()
 
     def add(self):
         product_data = self.dict_product()

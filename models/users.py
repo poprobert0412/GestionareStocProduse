@@ -15,6 +15,10 @@ class Users:
         user_data = self.dict_user
         with UsersDB() as db:
             db.create(user_data)
+    def delete_user(self):
+        if not self.id:
+            raise Exception("Avem nevoie de id pentru a sterge utilizatorul!")
+        self.user_db.delete(self.id)
 
     def dict_user(self):
         return {
@@ -25,3 +29,4 @@ class Users:
             "email": self.email,
             "password": self.password,
         }
+
