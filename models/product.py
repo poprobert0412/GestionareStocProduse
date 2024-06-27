@@ -1,19 +1,20 @@
 """Cream modelul(obiectul) pentru aplicatia noastra (gestionare stoc produse)"""
 from db.crud.product_crud import ProductsDB
+import uuid
 
 class Product:
     def __init__(self, product_name, description, ingredients, price, weight, quantity, id=None):
-        self.id = id
+        self.id = id or str(uuid.uuid4())
         self.product_name = product_name
         self.description = description
         self.ingredients = ingredients
         self.price = price
         self.weight = weight
         self.quantity = quantity
-        self.user_db = ProductsDB
+        self.user_db = ProductsDB()
 
     def add(self):
-        product_data = self.dict_product
+        product_data = self.dict_product()
         with ProductsDB() as db:
             db.create(product_data)
 

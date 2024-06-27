@@ -23,32 +23,22 @@ class ProductsDB(CrudABC):
         cursor.execute(SQL_QUERY, date_de_intrare_create)
         self.connection.commit()
 
-    def read(self, id=None, product_name=None, description=None, price=None, quantity=None):
+    def read(self, id=None, product_name=None):
         SQL_QUERY = "SELECT * FROM product " #adaugam un spatiu sa nu cumva sa ne dea eroare cand rulam
         value = ""
         if id:
             SQL_QUERY += "WHERE id = ?;"
             value = id
+            cursor = self.connection.cursor()
+            cursor.execute(SQL_QUERY, (value,))
         elif product_name:
             SQL_QUERY += "WHERE product_name = ?;"
             value = product_name
-        elif description:
-            SQL_QUERY += "WHERE description = ?;"
-            value = description
-        elif price:
-            SQL_QUERY += "WHERE price = ?;"
-            value = price
-        else:
-            SQL_QUERY += "WHERE quantity = ?;"
-            value = quantity
-
-        cursor = self.connection.cursor()
-
-        if not value:
-            cursor.execute(SQL_QUERY)
-        else:
+            cursor = self.connection.cursor()
             cursor.execute(SQL_QUERY, (value,))
-
+        else:
+            cursor = self.connection.cursor()
+            cursor.execute(SQL_QUERY)
         product = cursor.fetchall()
 
         product_json = []

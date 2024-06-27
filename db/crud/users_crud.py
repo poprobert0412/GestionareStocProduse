@@ -19,18 +19,22 @@ class UsersDB(CrudABC):
         if id:
             SQL_QUERY += "WHERE id = ?;"
             value = id
+            cursor = self.connection.cursor()
+            cursor.execute(SQL_QUERY, (value,))
         elif username:
             SQL_QUERY += "WHERE username = ?;"
             value = username
+            cursor = self.connection.cursor()
+            cursor.execute(SQL_QUERY, (value,))
         else:
             SQL_QUERY += "WHERE email = ?;"
             value = email
+            cursor = self.connection.cursor()
+            cursor.execute(SQL_QUERY, (value,))
 
         cursor = self.connection.cursor()
-        if not value:
-            cursor.execute(SQL_QUERY)
-        else:
-            cursor.execute(SQL_QUERY, (value, ))
+        cursor.execute(SQL_QUERY)
+        cursor.execute(SQL_QUERY, (value, ))
         users = cursor.fetchall()
         # print(users)
         user_json = []
