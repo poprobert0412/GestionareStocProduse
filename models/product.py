@@ -21,6 +21,12 @@ class Product:
         product_data = self.dict_product()
         with ProductsDB() as db:
             db.update(product_data, self.id)
+
+    def delete(self):
+        with ProductsDB() as db:
+            db.delete(self.id)
+
+
     def dict_product(self):
         return {
             "id": self.id,
@@ -31,3 +37,12 @@ class Product:
             "weight": self.weight,
             "quantity": self.quantity,
         }
+
+    def __repr__(self):
+        return (f"Produsul are id-ul: {self.id}\n"
+                f"Numele produsului: {self.product_name}\n"
+                f"Descrierea produsului: {self.description}\n"
+                f"Ingredientele produsului: {self.ingredients}\n"
+                f"Pretul produsului: {self.price}\n"
+                f"Greutatea produsului: {self.weight}\n"
+                f"Cantitatea produsului: {self.quantity}")
