@@ -3,6 +3,15 @@ from db.crud.interface_crud import CrudABC
 
 
 class ProductsDB(CrudABC):
+    def __init__(self):
+        super().__init__()
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        if self.connection:
+            self.connection.close()
 
     def create(self, date_de_intrare_create):
         SQL_QUERY = """
@@ -55,8 +64,16 @@ class ProductsDB(CrudABC):
             })
         return product_json
 
-    def update(self, date_de_intrare_update):
-        pass
+    def update(self, date_de_intrare_update,product_id):
+        SQL_QUERY = """
+            UPDATE product SET product_name:=product_name, description:=description,
+            ingredients:=ingredients, price:=price, weight:=weight, quantity:=quantity
+            WHERE id:=id;
+        """
+        cursor = self.connection.cursor()
+        date_de_intrare_update['id'] = product_id
+        cursor.execute(SQL_QUERY, date_de_intrare_update)
+        self.connection.commit()
 
     def delete(self, id):
         pass
